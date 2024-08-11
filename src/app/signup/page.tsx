@@ -5,14 +5,17 @@ import { useRouter } from 'next/navigation';
 import { useState, CSSProperties } from 'react';
 import {createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword} from 'firebase/auth';
 import {auth} from '../firebase';
-import { sign } from 'crypto';
+import DotPattern from '../components/DotPattern';
+import { cn } from "../lib/utils";
+import TypingAnimation from "../components/TypingAnimation";
 
 
 const SignUp = () => {
   const router = useRouter();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
+  const [error, setError] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSignUp = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -24,19 +27,39 @@ const SignUp = () => {
     } catch (error) {
       const errorCode = (error as { code: string }).code;
       const errorMessage = (error as { message: string }).message;
+      setError(errorMessage);
+      setIsModalOpen(true);
       console.log(errorCode, errorMessage);
     }
   };
 
 
- 
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setError(null);
+
+
+  }
 
 
 
 
   return (
     <div style={containerStyle}>
-      <h1 style={titleStyle}>SignUp Page</h1>
+      
+      <div style={{ marginTop:"-605px" , position:"absolute"}}>
+        <TypingAnimation 
+            className="text-4xl font-bold text-black dark:text-white"
+            text="Welcome to Travell AI"
+          />
+      </div>
+
+            <DotPattern
+        className={cn(
+          "[mask-image:radial-gradient(600px_circle_at_center,white,transparent)]"
+        )}
+      />
+      <h1 style={titleStyle}>SignUp </h1>
       <form onSubmit={handleSignUp} style={formStyle}>
         <div style={inputGroupStyle}>
           <label style={labelStyle}>Username:</label>
@@ -61,8 +84,45 @@ const SignUp = () => {
 
 
       <button type="submit" style={buttonStyle} onClick={() => {router.push("/login")}}>Log In</button>
+
+
+      {isModalOpen && (
+        <div style={modalOverlayStyle}>
+          <div style={modalStyle}>
+            <h2>Error</h2>
+            <p>{error}</p>
+            <button style={buttonStyle} onClick={closeModal}>Close</button>
+          </div>
+        </div>
+      )}
+      
     </div>
+
+    
   );
+};
+
+const modalOverlayStyle: CSSProperties = {
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+};
+
+
+const modalStyle: CSSProperties = {
+  backgroundColor: '#fff',
+  padding: '20px',
+  borderRadius: '8px',
+  boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+  width: '400px',
+  textAlign: 'center',
+  color: 'black',
 };
 
 
@@ -72,14 +132,13 @@ const containerStyle: CSSProperties = {
   alignItems: 'center',
   justifyContent: 'center',
   height: '100vh',
-  backgroundColor: '#f0f2f5',
 };
 
 
 const titleStyle: CSSProperties = {
   fontSize: '2rem',
   marginBottom: '1rem',
-  color: 'black',
+  color: 'white',
 };
 
 
@@ -89,7 +148,6 @@ const formStyle: CSSProperties = {
   width: '300px',
   padding: '2rem',
   borderRadius: '8px',
-  backgroundColor: '#fff',
   boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
 };
 

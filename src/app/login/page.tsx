@@ -5,8 +5,9 @@ import { useRouter } from 'next/navigation';
 import { useState, CSSProperties } from 'react';
 import {getAuth, signInWithEmailAndPassword} from 'firebase/auth';
 import {auth} from '../firebase';
-import { sign } from 'crypto';
-
+import DotPattern from '../components/DotPattern';
+import { cn } from "../lib/utils";
+import TypingAnimation from "../components/TypingAnimation";
 
 const Login = () => {
   const router = useRouter();
@@ -51,7 +52,20 @@ const Login = () => {
 
   return (
     <div style={containerStyle}>
-      <h1 style={titleStyle}>Login Page</h1>
+
+      <div style={{ marginTop:"-605px" , position:"absolute"}}>
+        <TypingAnimation 
+            className="text-4xl font-bold text-black dark:text-white"
+            text="Welcome to Travell AI"
+          />
+      </div>
+
+            <DotPattern
+        className={cn(
+          "[mask-image:radial-gradient(600px_circle_at_center,white,transparent)]"
+        )}
+      />
+      <h1 style={titleStyle}>Login </h1>
       <form onSubmit={handleLogin} style={formStyle}>
         <div style={inputGroupStyle}>
           <label style={labelStyle}>Username:</label>
@@ -120,7 +134,7 @@ const containerStyle: CSSProperties = {
   alignItems: 'center',
   justifyContent: 'center',
   height: '100vh',
-  backgroundColor: '#f0f2f5',
+ 
 };
 
 
@@ -136,7 +150,6 @@ const formStyle: CSSProperties = {
   width: '300px',
   padding: '2rem',
   borderRadius: '8px',
-  backgroundColor: '#fff',
   boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
 };
 
