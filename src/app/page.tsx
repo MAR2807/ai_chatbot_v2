@@ -223,14 +223,14 @@ export default function Home() {
       />
 
 
-      <div style={{ marginTop: "-25px" }}>
+      <div style={{ marginTop: "-85px" }}>
         <ShimmerButton onClick={handleLogOut}>
           <h3 style={{ color: "white" }}>LogOut</h3>
         </ShimmerButton>
       </div>
 
 
-      <div style={{ marginTop: "50px", position: "absolute" }}>
+      <div className="responsive-font" style={{ marginTop: "-30px", position: "absolute", width:"100%", maxWidth:"400px" }}>
         <TypingAnimation
           className="text-4xl font-bold text-black dark:text-white"
           text={animatedHeader}
@@ -239,7 +239,7 @@ export default function Home() {
 
         <div
           className="text-5xl font-semibold text-center my-12"
-          style={{ marginTop: "20px", position: "relative" }}
+          style={{ marginTop: "-10px", position: "relative" }}
         >
           <WordRotate words={words} />
         </div>
@@ -251,7 +251,8 @@ export default function Home() {
           border: "0px solid black",
           backgroundColor: "transparent",
           marginTop: "150px",
-          width: "600px",
+          width: "100%",
+          maxWidth: "600px",
           height: "500px",
           paddingTop: "100px",
           scrollbarColor: "transparent transparent",
@@ -320,23 +321,25 @@ export default function Home() {
           width: "500px",
         }}
       >
-        <input
-          type="text"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          style={{ borderRadius: "20px", width: "100%" }}
-        />
-        <button type="submit" style={{ display: "none" }}>
-          Send
-        </button>
-      </form>
-
-
+    <div style={{ display: "flex", justifyContent: "center", alignItems: "center",}}>
+      <input
+        type="text"
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+        style={{ borderRadius: "20px", width: "80%", maxWidth: "500px", marginTop:"-20px"}}
+      />
+    </div>
+    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop:"10px" }}>
       <ShimmerButton className="shadow-2xl" onClick={handleSubmit}>
         <span className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight text-white dark:from-white dark:to-slate-900/10 lg:text-lg">
           Send
         </span>
       </ShimmerButton>
+    </div>
+      </form>
+
+
     </main>
   );
+  
 }
